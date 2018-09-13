@@ -1,0 +1,23 @@
+{
+  "name": "nzord-app",
+  "description": "Pacote com todos css/js padrões do NZord.",
+  "main": "",
+  "keywords": [
+    "nzord",
+    "js",
+    "css",
+    "jquery"
+  ],
+  "authors": [
+    "TI Lrv <dtic@lucasdorioverde.mt.gov.br>"
+  ],
+  "license": "MIT",
+  "homepage": "lucasdorioverde.mt.gov.br",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

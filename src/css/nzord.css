@@ -1,0 +1,63 @@
+.loading {    
+    background-color: #ffffff;
+    background-image: url("../img/loader.gif");
+    background-size: 25px 25px;
+    background-position:right center;
+    background-repeat: no-repeat;
+}
+
+/* 
+*  CSS Check List
+*/
+
+.checklist{
+    width: 100%; 
+    position: relative; 
+    top: 0px; left: 0px; 
+    opacity: 1; 
+    display: block;
+    max-height: 247.266px; 
+    border: 1px solid #ddd;
+    list-style: none;
+    padding: 0px;
+    margin:0px;
+    background-color: white;
+}
+.checklist-container{
+    height: 200px;
+    overflow-y: auto;
+    margin-bottom: 10px;
+}
+.checklist > li:not(:last-child){
+    border-bottom: 1px solid #ddd;
+}
+.checklist > li{
+    padding:5px; 
+}
+.checklist > li:hover{
+    background-color: #eee;
+}
+.checklist >li label{
+    padding-left: 9px;
+    font-weight: 500;
+    display: inline;
+}
+.checklist .select-all{
+    font-weight: 600;
+}
+.checklist > li.disabled {
+    color: rgba(0,0,0,.3);
+    background-color: transparent!important;
+    cursor: context-menu;
+}
+
+.checklist-hidden-accessible {
+    border: 0 !important;
+    clip: rect(0 0 0 0) !important;
+    height: 1px !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+    position: absolute !important;
+    width: 1px !important
+}
