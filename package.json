@@ -1,0 +1,24 @@
+{
+  "name": "nzord-app",
+  "version": "1.0.0",
+  "description": "Pacote com todos css/js padrões do NZord.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/coderlrv/nzord-app.git"
+  },
+  "keywords": [
+    "nzord",
+    "js",
+    "css"
+  ],
+  "author": "Ti Lrv <dtic@lucasdorioverde.mt.gov.br>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/coderlrv/nzord-app/issues"
+  },
+  "homepage": "https://github.com/coderlrv/nzord-app#readme"
+}
