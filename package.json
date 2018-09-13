@@ -1,11 +1,7 @@
 {
   "name": "@coder-lrv/nzord-app",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Pacote com todos css/js padrões do NZord.",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/coderlrv/nzord-app.git"
