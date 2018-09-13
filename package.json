@@ -1,5 +1,5 @@
 {
-  "name": "nzord-app",
+  "name": "@coder-lrv/nzord-app",
   "version": "1.0.0",
   "description": "Pacote com todos css/js padrões do NZord.",
   "main": "index.js",
