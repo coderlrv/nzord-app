@@ -9,6 +9,69 @@ function onExitModal(){
 	Pace.restart();
 }
 
+function checkSessao(ses,pag){
+	$.ajax({
+		url : $('#urlBase').val()+'/app/system/sessao/sesonline',
+		type: "POST",
+		cache: false,
+		data: { sess: ses, pag: pag },
+		success: function(data, textStatus, jqXHR){
+			if( data == '1' ){
+				$("#spanRegSes").html('<i class="fa fa-circle text-green"></i> Online');
+			}else{
+				$("#spanRegSes").html('<i class="fa fa-circle text-danger"></i> Offline');
+				window.location.href = $('#urlBase').val()+'/logout';
+			}
+		}
+	});	
+}
+
+function checknotif() {
+	var userID = $.cookie('userID');
+	if (!Notification) {
+		$('body').append('<h4 style="color:red">*Browser does not support Web Notification</h4>');
+		return;
+	}
+	if (Notification.permission !== "granted")
+		Notification.requestPermission();
+	else {
+		//console.log(userID);
+		$.ajax({
+			url : "base/includes/notificar.ajax.php",
+			type: "POST",
+			data: { user: userID },
+			success: function(data, textStatus, jqXHR){
+				if( data['count'] > 0 ){ 
+					//var data = jQuery.parseJSON(data);
+					if(data.result == true){
+						var data_notif = data.notif;
+						console.log(data_notif.length);
+						for (var i = data_notif.length - 1; i >= 0; i--) {
+							console.log(data_notif[i]);
+							var theurl = data_notif[i]['url'];
+							var notifikasi = new Notification(data_notif[i]['title'], {
+								icon: data_notif[i]['icon'],
+								body: data_notif[i]['msg'],
+							});
+							notifikasi.onclick = function () {
+								window.open(theurl); 
+								notifikasi.close();
+							};
+							setTimeout(function(){
+								//notifikasi.close();
+							}, 30000);
+						};
+					}else{
+	
+					}
+				}
+			},
+			error: function(jqXHR, textStatus, errorThrown){
+			}
+		});
+	}
+};
+
 setInterval(function() {
 	var hoje = new Date();
 	hora = hoje.getHours();
