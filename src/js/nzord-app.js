@@ -1,7 +1,8 @@
-jQuery( document ).ready(function( $ ) {
-    //TODO do something or delete this.
+$( document ).ready(function( $ ) {
+	//TODO do something or delete this.
 	getMensagem();
 	Pace.restart();
+
 	checkSessao($('#sesId').val(),$('#urlPag').val());
 });
 
@@ -102,7 +103,7 @@ function validSelect(){
     	return $('input[name="checkbox1"]:checked').val();
     }else{    	
     	if( $('tr.selected td:nth-child(1)').text() != ''){
-    		return $('tr.selected td:nth-child(1)').text();;
+    		return $('tr.selected td:nth-child(1)').text();
     	}else{
     		jsAlertBox('info','Selecione!','Selecione 1 (um) item da Listagem!');
 			return false;
@@ -250,7 +251,7 @@ function sysModalBox(title,url,data,alerta,nome){
 							'</div>'+
 							'<div class="row modal-body" id="modalBoxDetalhe">'+
 								'<div class="col-xs-12 text-center" id="loadingModal"><br><br><img src="'+$('#urlBase').val()+'/images/Preloader_3.gif" width="64" height="64"></div>'+
-								'<iframe src="' + $('#urlBase').val() + '/' + urlFinal + '" '+nome+' width="100%" height="600" style="border: none;" onload="jaCarregado()"></iframe>'+
+								'<iframe src="' + $('#urlBase').val() + '/' + urlFinal + '" '+nome+' width="100%" height="600" style="border: none;" onload="jaCarregado()" ></iframe>'+
 							'</div>'+
 						'</div>'+
 					'</div>'+
@@ -657,3 +658,6 @@ function getJsonRow(tr) {
 	}
 
 }());
+
+
+

@@ -98,6 +98,9 @@
     padding-top: 12px;
     padding-bottom: 12px;
   }  
+  .modal-lg {
+    width: 80% !important;
+  } 
 }
 
 @media (min-width: 769px){
@@ -106,7 +109,10 @@
   }
     .affix-content .container .page-header{
     margin-top: 0;
-  }  
+  }   
+  .modal-lg {
+    width: 80% !important;
+  }
 }
 
 @media (min-width: 992px){
@@ -115,6 +121,9 @@
   }
     .affix-content .container .page-header{
     margin-top: 0;
+  } 
+  .modal-lg {
+    width: 80% !important;
   }
 }
 
@@ -155,6 +164,9 @@
   .sidebar-nav .navbar li a > .caret {
     margin-top: 8px;
   }  
+  .modal-lg {
+    width: 80% !important;
+  }
 }
 
 footer {
@@ -164,17 +176,16 @@ footer {
     background: linear-gradient(#fff, #e5e8ef, #ADBDC5);
     min-height: 25px;    
     padding: 1px 6px !important;
-	position:absolute;
-    bottom:0;
-	width: 97%;
+	/*position:absolute;
+    bottom:0;*/
 }
 
 .content-wrapper{
-	overflow-y:auto; 
-    max-height:92vh;
+	overflow:auto; 
+    max-height:90vh;
     
     /* Fix content não sobre redimensionar ao abrir menu lateral. */
-	/* min-width: 100%; */
+	/*min-width: 100%;*/
 }
 
 .well {
@@ -371,11 +382,11 @@ ul hr {
     margin-bottom: 5px;
 }
 
-
+/*
 .modal-lg {
     width: 80% !important;
 }
-
+*/
 .modal-dialog .row {
     margin-left: 0px !important;
     margin-right: 0px !important;
@@ -769,4 +780,9 @@ textarea[readonly] + .note-editor > .note-editing-area{
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 200px;
+}
+
+
+html,body{
+    height: none !important;
 }
