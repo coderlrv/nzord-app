@@ -182,10 +182,11 @@ footer {
 
 .content-wrapper{
 	overflow:auto; 
-    max-height:90vh;
+    max-height:85vh;
     
     /* Fix content não sobre redimensionar ao abrir menu lateral. */
-	/*min-width: 100%;*/
+    min-width: 80%;
+    max-width: 100%;
 }
 
 .well {
@@ -403,7 +404,8 @@ ul hr {
 
 .input-group{	
 	height: 28px;
-	border: 1px solid #d2d6de;
+    /*border: 1px solid #d2d6de;*/
+    border: 0px solid #d2d6de;
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
 	border-radius: 4px;
@@ -533,7 +535,7 @@ hr {
 }
 
 #clock-wrapper:hover{
-	background-color: #367fa9;
+    background-color: #367fa9;
 }
 
 #data-wrapper{
@@ -545,8 +547,10 @@ hr {
 }
 
 #data-wrapper:hover{
-	background-color: #367fa9;
+    background-color: #367fa9;
 }
+
+
 
 #tools-wrapper{
 	padding: 1px 2px 1px !important;
@@ -740,12 +744,14 @@ textarea[readonly] + .note-editor > .note-editing-area{
 .chosen-choices{
     border-radius: 0px !important; 
 }
-
+.uppercase{
+    text-transform: uppercase;
+}
 
 /* fix input group */
-
 .input-group{
     border-radius: 0;
+    border: 1px solid #d2d6de;
 }
 
 /* css Auto complete */
@@ -755,19 +761,14 @@ textarea[readonly] + .note-editor > .note-editing-area{
 .auto-complete li:hover { color:#332419; display:block; background:#EEE;}
 .auto-complete li.active { color:#332419; display:block; background:#EEE;}
 
-
-
 /* btn clear filter */
-
 .btn-clerfilter{
     background-color: #dd4b39 !important;
     border-color: #d73925;
     color: #ffff !important;
 }
 
-
 /* btn Addons searchSelect */
-
 .btn-addons{
     height: 100%!important;
     width: 100%!important;
@@ -782,7 +783,39 @@ textarea[readonly] + .note-editor > .note-editing-area{
     max-width: 200px;
 }
 
-
 html,body{
     height: none !important;
+}
+
+.search-menu{
+    border: 0px !important;
+}
+
+form{
+    margin:0px !important;
+}
+
+.form-signin input[name="username"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.form-signin input[name="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+input[name="username"]:focus{
+    display:inline-block;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.select2-container--default .select2-selection--multiple {
+    border-radius: 0px !important;
+    border-color: #d2d6de !important;
 }

@@ -6,6 +6,17 @@ $( document ).ready(function( $ ) {
 	checkSessao($('#sesId').val(),$('#urlPag').val());
 });
 
+var AdminLTEOptions = {
+	//Enable sidebar expand on hover effect for sidebar mini
+	//This option is forced to true if both the fixed layout and sidebar mini
+	//are used together
+	sidebarExpandOnHover: true,
+	//BoxRefresh Plugin
+	enableBoxRefresh: true,
+	//Bootstrap.js tooltip
+	enableBSToppltip: true
+  };
+  
 function onExitModal(){
 	Pace.restart();
 }
@@ -180,9 +191,9 @@ function sysModalBoxJs(title,url,data,nome,size,modal=true,exitDef=true){
 		
 	html+= '<div class="modal-dialog'+size+'">'+
 			'<div class="panel panel-default modal-content">'+
-				'<div class="panel-heading">'+
+				'<div class="modal-header panel-heading">'+
 				'<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
-				'<h4><b>'+title+'</b>  <em><small class="text-right">['+urlFinal+']</small></em></h4></div>'+
+				'<h4 class="modal-title"><b>'+title+'</b>  <em><small class="text-right">['+urlFinal+']</small></em></h4></div>'+
 					'<div class="row modal-body" style="padding-top:0px; padding-bottom:0px;">'+
 					'<div id="mdlBoxPreloader_'+name+'" class="text-center"><img src="'+$('#urlBase').val()+'/images/Preloader_3.gif" width="64" height="64"><br> Carregando...</div>'+
 					'<div id="mdlBoxDetail_'+name+'" style="display:none;padding-top:10px;">'+
@@ -213,7 +224,9 @@ function sysModalBoxJs(title,url,data,nome,size,modal=true,exitDef=true){
 			var fn = window[exitDef];
 			if (typeof fn === "function") fn(data);
 		}
-		
+
+		$(document).trigger('exitModal',[name,data]);
+
 		setTimeout($.unblockUI, 2000);
 	});
 }
@@ -414,7 +427,7 @@ function jqSaveModal(form,url,name){
 }
 
 /**	Função para slvar no banco */
-function jqSave(url,dados){
+function jqSave(url,dados,modal){
 	var defer = $.Deferred();
 
 	$.ajax({
@@ -426,6 +439,7 @@ function jqSave(url,dados){
 		success: function(response){
 			if(response.statusCode == 201 || response.statusCode == 200){
 				msgInfoBox('success',response.message);
+				hideModalData(modal);
 			}else if(response.statusCode == 400 || response.statusCode == 401){
 				msgInfoBox('warning',response.message);
 			}else{
@@ -452,7 +466,56 @@ function jqSave(url,dados){
 			defer.reject(xhr);
 	    }
 	});
+	return defer;
+}
 
+/**	Função para */
+function request(url,dados,options){
+	var settings = $.extend({
+		type: 'post',
+		url: url,
+		dataType: 'json',
+        cache: false,
+		data: dados,
+		messagesAlert:false
+	}, options );
+
+	var defer = $.Deferred();
+	$.ajax(settings)
+	.done(function(response){
+		if(settings.messagesAlert){
+			if(response.statusCode == 201 || response.statusCode == 200){
+				msgInfoBox('success',response.message);
+			}else if(response.statusCode == 400 || response.statusCode == 401){
+				msgInfoBox('warning',response.message);
+			}else{
+				jsAlertBox('error','Erro ao salvar',response.message);
+			}
+		}
+			
+		defer.resolve(response);
+
+	})
+	.fail(function(jqXHR, textStatus, errorThrown ){
+		if(settings.messagesAlert){
+			if(jqXHR.status == 400){
+				var response = JSON.parse(jqXHR.responseText);
+				var errors = getListError(response.message);
+				jsAlertBox('error','Erro ao salvar',errors);
+			}else{
+				console.log(errorThrown + '\r\n' + jqXHR.statusText + '\r\n');
+				var response = JSON.parse(jqXHR.responseText);
+				if(response.error){
+					jsAlertBox('error','Erro ao salvar',response.message+"<pre style='width: 482px;height: 200px;'>"+response.error+"</pre>");
+				}else{
+					jsAlertBox('error','Erro ao salvar',response.message);
+				}
+			}
+		}
+
+		defer.reject(jqXHR, textStatus, errorThrown)
+	});
+	
 	return defer;
 }
 
@@ -617,6 +680,8 @@ function getJsonRow(tr) {
 					$form.find('button[type=submit]').removeAttr("disabled");
 				},
 				error: function(xhr, ajaxOptions, thrownError) {
+					$form.find('button[type=submit]').removeAttr("disabled");
+
 					if(xhr.status == 400){
 						var response = JSON.parse(xhr.responseText);
 
@@ -638,7 +703,6 @@ function getJsonRow(tr) {
 
 					defer.reject(xhr);
 					//Ativa botao submit novamente
-					$form.find('button[type=submit]').removeAttr("disabled");
 				}
 			});
 		}
@@ -657,6 +721,21 @@ function getJsonRow(tr) {
 		return defer.promise();
 	}
 
+	$.fn.serializeObject = function() {
+        var o = {};
+        var a = this.serializeArray();
+        $.each(a, function() {
+            if (o[this.name]) {
+                if (!o[this.name].push) {
+                    o[this.name] = [o[this.name]];
+                }
+                o[this.name].push(this.value || '');
+            } else {
+                o[this.name] = this.value || '';
+            }
+        });
+        return o;
+    };
 }());
 
 
