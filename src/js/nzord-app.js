@@ -217,7 +217,7 @@ function sysModalBoxJs(title,url,data,nome,size,modal=true,exitDef=true){
 	
 	$('#modalBox'+box).on('hidden.bs.modal', function (e,data) {
 		$('#modalBox'+box).remove();
-
+	
 		if( exitDef == true ){
 			onExitModal(data);
 		}else{
@@ -225,7 +225,6 @@ function sysModalBoxJs(title,url,data,nome,size,modal=true,exitDef=true){
 			if (typeof fn === "function") fn(data);
 		}
 
-		$(document).trigger('exitModal',[name,data]);
 
 		setTimeout($.unblockUI, 2000);
 	});
@@ -517,6 +516,10 @@ function request(url,dados,options){
 	});
 	
 	return defer;
+}
+
+function redirect(path){
+	window.location = baseUrl+'/'+path;
 }
 
 function hideModalData(name,data){

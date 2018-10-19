@@ -819,3 +819,7 @@ input[name="username"]:focus{
     border-radius: 0px !important;
     border-color: #d2d6de !important;
 }
+
+.content-wrapper{
+    overflow: auto;
+}
