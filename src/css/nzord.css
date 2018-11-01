@@ -24,7 +24,7 @@
     background-color: white;
 }
 .checklist-container{
-    height: 200px;
+    height: 140px;
     overflow-y: auto;
     margin-bottom: 10px;
 }

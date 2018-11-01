@@ -7,7 +7,8 @@
 }
 
 .card-container.card {
-    background-color: #F7F7F7;
+    /*background-color: #F7F7F7;*/
+    background-color: rgba(255, 255, 255, 0.63);
     padding: 10px 15px 20px;
     margin: 0 auto 15px;
         margin-top: 0px;
@@ -710,6 +711,7 @@ select[readonly] {
     position: relative;
     overflow: hidden;
     border: 1px solid #d2d6de;
+    background-color: #ffffff;
 }
 
 .note-editable[contenteditable*="false"]{
@@ -822,4 +824,9 @@ input[name="username"]:focus{
 
 .content-wrapper{
     overflow: auto;
+}
+
+.label-status{
+    font-size: 100%; 
+    border-radius: 50em;
 }

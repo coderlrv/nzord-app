@@ -1,8 +1,8 @@
 
-function searchTable(input){
+function searchTable(input,tableId){
     var encontrou = false;
     var termo = $('#'+input).val().toLowerCase();    
-    $('table > tbody > tr').each(function(){
+    $('#'+tableId+' > tbody > tr').each(function(){
         $(this).find('td').each(function(){
             if($(this).text().toLowerCase().indexOf(termo) > -1) encontrou = true;
         });

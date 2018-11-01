@@ -1,22 +1,30 @@
-$( document ).ready(function( $ ) {
-	//TODO do something or delete this.
-	getMensagem();
-	Pace.restart();
-
-	checkSessao($('#sesId').val(),$('#urlPag').val());
+$( window ).on( "load", function() {
+	$(".loader").fadeOut("slow");
 });
 
 var AdminLTEOptions = {
-	//Enable sidebar expand on hover effect for sidebar mini
-	//This option is forced to true if both the fixed layout and sidebar mini
-	//are used together
 	sidebarExpandOnHover: true,
-	//BoxRefresh Plugin
 	enableBoxRefresh: true,
-	//Bootstrap.js tooltip
 	enableBSToppltip: true
   };
   
+ $(document).ready(function() {
+	getMensagem();
+	Pace.restart();
+	checkSessao($('#sesId').val(),$('#urlPag').val());	
+
+	$('.sidebar-toggle').click(function(event) {
+		if ($(".sidebar-mini").hasClass("sidebar-collapse")) {
+			$.cookie('menuClose', 'false', { path: '/' });
+		}else{
+			$.cookie('menuClose', 'true', { path: '/' });
+		}	
+	});
+	if ($.cookie("menuClose") == 'true') {
+		$('.sidebar-mini').addClass('sidebar-collapse');
+	}
+});
+
 function onExitModal(){
 	Pace.restart();
 }
@@ -84,17 +92,13 @@ function checknotif() {
 	}
 };
 
-setInterval(function() {
-	var hoje = new Date();
-	hora = hoje.getHours();
-	if(hora<=9){
-		hora = "0" + hora;
-	}
-	minutos = hoje.getMinutes();
-	if(minutos<=9){
-		minutos = "0" + minutos;
-	}    
-	$("#clock-wrapper").html( [hora, minutos].join(':') );	
+setInterval(function(){
+	$.ajax({
+		url: $('#urlBase').val()+'/app/system/index/getHora',
+		cache: false
+	}).done(function( data ) {
+		$("#clock-wrapper").html( data );
+	});
 	getMensagem();
 	checkSessao($('#sesId').val(),$('#urlPag').val());
 	Pace.restart();
@@ -383,8 +387,7 @@ function jqSaveModal(form,url,name){
 
 			var response = JSON.parse(data);
 			if( data == 1){
-				msgInfoBox('success','Movimentação salva com Sucesso!');
-				
+				msgInfoBox('success','Movimentação salva com Sucesso!');				
 				if(name) hideModalData(name,data);
 			}else if(response){	
 				if(response.statusCode == 201 || response.statusCode == 200){
@@ -663,31 +666,26 @@ function getJsonRow(tr) {
 				processData: false,
 				data: dados,
 				success: function(response){
-					//Chama evento afterSubmit
-					$form.trigger('afterSubmit',[response]);
-
 					if(response.statusCode == 201 || response.statusCode == 200){
 						msgInfoBox('success',response.message);
-						if(settings.modalClose) hideModalData(settings.modalClose,response);
-	
+						if(settings.modalClose) hideModalData(settings.modalClose,response);	
 					}else if(response.statusCode == 400 || response.statusCode == 401){
-						msgInfoBox('warning',response.message);
-	
+						msgInfoBox('warning',response.message);	
 						if(settings.modalClose) hideModalData(settings.modalClose,response);
 					}else{
 						jsAlertBox('error','Erro ao salvar',response.message);
 					}
-					defer.resolve(response);
-					
+					defer.resolve(response);					
 					//Ativa botao submit novamente
 					$form.find('button[type=submit]').removeAttr("disabled");
+					//Chama evento afterSubmit
+					$form.trigger('afterSubmit',[response]);
+					rePage();
 				},
 				error: function(xhr, ajaxOptions, thrownError) {
 					$form.find('button[type=submit]').removeAttr("disabled");
-
 					if(xhr.status == 400){
 						var response = JSON.parse(xhr.responseText);
-
 						if(typeof(response.message) === 'object'){
 							var errors = getListError(response.message);
 							jsAlertBox('error','Erro ao salvar',errors);
@@ -703,7 +701,6 @@ function getJsonRow(tr) {
 							jsAlertBox('error','Erro ao salvar',response.message);
 						}
 					}
-
 					defer.reject(xhr);
 					//Ativa botao submit novamente
 				}
