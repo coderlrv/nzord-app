@@ -639,7 +639,7 @@ function getJsonRow(tr) {
 		}, options );
 
 		var sendForm = function(){
-			if(CKEDITOR){
+			if(typeof CKEDITOR !== 'undefined'){
 				for ( instance in CKEDITOR.instances )
 					CKEDITOR.instances[instance].updateElement();
 			}
