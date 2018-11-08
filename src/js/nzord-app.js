@@ -481,7 +481,7 @@ function request(url,dados,options){
 		data: dados,
 		messagesAlert:false
 	}, options );
-
+	
 	var defer = $.Deferred();
 	$.ajax(settings)
 	.done(function(response){
@@ -639,6 +639,11 @@ function getJsonRow(tr) {
 		}, options );
 
 		var sendForm = function(){
+			if(CKEDITOR){
+				for ( instance in CKEDITOR.instances )
+					CKEDITOR.instances[instance].updateElement();
+			}
+			
 			$form.find('button[type=submit]').attr('disabled', 'disabled');
 			var dados = new FormData(document.getElementById($form.attr('id')));
 
