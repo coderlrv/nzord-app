@@ -576,12 +576,17 @@ function jsClearForm(form){
 }
 
 function getListError(message){
-    var errors ='<ul>';
-    $.each(message, function(index, value) {
-        $.each(value,function(i,subvalue){
-            errors += '<li>' + subvalue+'</li>';
-        });
-    });
+	var errors ='<ul>';
+	if(typeof message === 'string' || message instanceof String){
+		errors += '<li>' + message+'</li>';
+	}else{
+		$.each(message, function(index, value) {
+			$.each(value,function(i,subvalue){
+				errors += '<li>' + subvalue+'</li>';
+			});
+		});
+	}
+  
     errors += '</ul>';
     return errors;
 }
@@ -624,6 +629,15 @@ function getJsonRow(tr) {
 	return rows;
 }
 
+function IsJsonString(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
+}
+
 //Save modal jquery
 (function () {
 
@@ -635,7 +649,8 @@ function getJsonRow(tr) {
 		var settings = $.extend({
 			modalClose:null,
 			dataType:'json',
-			notSubmit: false
+			notSubmit: false,
+			blockMessage:false
 		}, options );
 
 		var sendForm = function(){
@@ -646,23 +661,33 @@ function getJsonRow(tr) {
 			
 			$form.find('button[type=submit]').attr('disabled', 'disabled');
 			var dados = new FormData(document.getElementById($form.attr('id')));
+	
 
-			//Pega todos arquivos
+			// //Pega todos arquivos
 			$form.find('input[type=file]').each(function(index,el) {
 				var nameInput = $(el).attr("name");
 				var idInput = $(el).attr("id");
 				if (idInput == undefined) return;
-				dados.append(nameInput.replace("[]",""),$(el).prop('files'));
-		
+
+				dados.delete(nameInput);
+				
 				var ins = document.getElementById(idInput).files.length;
 				for (var x = 0; x < ins; x++) {
 					dados.append(nameInput, document.getElementById(idInput).files[x]);
 				}
 			});
-	
+
+			if(settings.blockMessage){
+				$.blockUI({ 
+					message: settings.blockMessage,
+					baseZ: 2000
+				}); 
+			}
+		
 			//Envia ajax.
 			$.ajax({
-				type: 'post',
+				type: 'POST',
+				method:'POST',
 				url: url,
 				enctype: 'multipart/form-data',
 				dataType: settings.dataType,
@@ -680,9 +705,15 @@ function getJsonRow(tr) {
 					}else{
 						jsAlertBox('error','Erro ao salvar',response.message);
 					}
-					defer.resolve(response);					
+
+					defer.resolve(response);
 					//Ativa botao submit novamente
 					$form.find('button[type=submit]').removeAttr("disabled");
+
+					if(settings.blockMessage){
+						$.unblockUI();
+					}
+					
 					//Chama evento afterSubmit
 					$form.trigger('afterSubmit',[response]);
 					rePage();
@@ -699,12 +730,20 @@ function getJsonRow(tr) {
 						}
 					}else{
 						console.log(thrownError + "\r\n" + xhr.statusText + "\r\n");
-						var response = JSON.parse(xhr.responseText);
-						if(response.error){
-							jsAlertBox('error','Erro ao salvar',response.message+"<pre style='width: 482px;height: 200px;'>"+response.error+"</pre>");
+						if(IsJsonString(xhr.responseText)){
+							var response = JSON.parse(xhr.responseText);
+							if(response.error){
+								jsAlertBox('error','Erro ao salvar',response.message+"<pre style='width: 482px;height: 200px;'>"+response.error+"</pre>");
+							}else{
+								jsAlertBox('error','Erro ao salvar',response.message);
+							}
 						}else{
-							jsAlertBox('error','Erro ao salvar',response.message);
+							jsAlertBox('error','Erro ao salvar',"<pre style='width: 482px;height: 200px;'>"+thrownError.message+"</pre>");
 						}
+						
+					}
+					if(settings.blockMessage){
+						$.unblockUI();
 					}
 					defer.reject(xhr);
 					//Ativa botao submit novamente
