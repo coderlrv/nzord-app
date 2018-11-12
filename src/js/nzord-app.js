@@ -161,16 +161,16 @@ function sysAction(url,params,idParam){
 
 	location.href = urlFinal
 }
+
 function sysModalBoxJs(title,url,data,nome,size,modal=true,exitDef=true){
 	var name = nome;
-	var urlFinal = url;
-	
+	var urlFinal = url;	
 	if( data == true ){
 		if( validSelect() == false ){
 			return false;
 		}
 		var idMov = validSelect();
-		var urlFinal = url + '/' + idMov;
+		urlFinal = url + '/' + idMov;
 	}
 
 	if( nome != 'undefined' ){
@@ -227,9 +227,8 @@ function sysModalBoxJs(title,url,data,nome,size,modal=true,exitDef=true){
 		}else{
 			var fn = window[exitDef];
 			if (typeof fn === "function") fn(data);
-		}
-
-
+		}		
+		urlFinal = null;
 		setTimeout($.unblockUI, 2000);
 	});
 }
@@ -238,26 +237,21 @@ function loadDetailBoxJs(name,url){
 	setTimeout( function() { $('#mdlBoxDetail_'+name).load( url )},800);
 }
 
-function sysModalBox(title,url,data,alerta,nome){
-	if( data == true ){
+function sysModalBox(title,url,vselect,alerta,nome='mdlFrame'){	
+	var urlFinal = url;	;
+	if( vselect == true ){
 		if( validSelect() == false ){
 			return false;
 		}
-		var idMov =  validSelect();
-		var urlFinal = url + '/' + idMov;
-	}else{
-		var urlFinal = url;
+		var idMov = validSelect();
+		urlFinal = url + '/' + idMov;
 	}
-
 	if( alerta != 'undefined' ){
 		alerta = 'alert alert-'+alerta;
 	}
-
-	if( nome != 'undefined' ){
-		nome = 'name="'+nome+'" id="'+nome+'"';
-	}	
-
-	var html = '<div class="modal fade" id="modalBox" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">'+
+	nome = 'name="'+nome+'"';	
+	var box = $.now();	
+	var html = '<div class="modal fade" id="modalBox'+box+'" '+nome+' tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">'+
 					'<div class="modal-dialog modal-lg">'+
 						'<div class="modal-content">'+
 							'<div class="modal-header ' + alerta + '">'+
@@ -274,12 +268,17 @@ function sysModalBox(title,url,data,alerta,nome){
 				'</div>';
 
 	$('#divModalBox').append( html );
-	$('#modalBox').modal('show');
+	$('#modalBox'+box).modal('show');
 
 	//$('#modalBoxDetalhe').load( urlFinal + "&embedded=true");
+	$('#mdlBoxDetail_'+name).load(url,function(response, status, xhr){
+		$('#mdlBoxPreloader_'+name).hide();
+		$('#mdlBoxDetail_'+name).show();
+	});
 
-	$('#modalBox').on('hidden.bs.modal', function (e) {
-		$('#modalBox').remove();
+	$('#modalBox'+box).on('hidden.bs.modal', function (e,data) {
+		$('#modalBox'+box).remove();		
+		setTimeout($.unblockUI, 2000);
 	});	
 }
 
