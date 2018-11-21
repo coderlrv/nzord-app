@@ -9,8 +9,8 @@ var AdminLTEOptions = {
   };
   
  $(document).ready(function() {
-	getMensagem();
 	Pace.restart();
+	getMensagem();
 	checkSessao($('#sesId').val(),$('#urlPag').val());	
 
 	$('.sidebar-toggle').click(function(event) {
@@ -29,10 +29,19 @@ function onExitModal(){
 	Pace.restart();
 }
 
+function getHoras(){
+	$.ajax({
+		url: $('#urlBase').val()+'/app/system/index/getHora',
+		cache: false
+	}).done(function( data ) {
+		$("#clock-wrapper").html( data );
+	});
+}
+
 function checkSessao(ses,pag){
 	$.ajax({
 		url : $('#urlBase').val()+'/app/system/sessao/sesonline',
-		type: "POST",
+		type: "post",
 		cache: false,
 		data: { sess: ses, pag: pag },
 		success: function(data, textStatus, jqXHR){
@@ -43,7 +52,7 @@ function checkSessao(ses,pag){
 				window.location.href = $('#urlBase').val()+'/logout';
 			}
 		}
-	});	
+	});
 }
 
 function checknotif() {
@@ -92,17 +101,14 @@ function checknotif() {
 	}
 };
 
-setInterval(function(){
-	$.ajax({
-		url: $('#urlBase').val()+'/app/system/index/getHora',
-		cache: false
-	}).done(function( data ) {
-		$("#clock-wrapper").html( data );
-	});
+setInterval(function(){	
+	$('#ajax-loading').show();
+	getHoras();
 	getMensagem();
 	checkSessao($('#sesId').val(),$('#urlPag').val());
-	Pace.restart();
-}, 10000);
+	Pace.restart();	
+	$('#ajax-loading').hide('1500');	
+}, 20000);
 
 function getMensagem(){
 	$.ajax({
@@ -277,7 +283,8 @@ function sysModalBox(title,url,vselect,alerta,nome='mdlFrame'){
 	});
 
 	$('#modalBox'+box).on('hidden.bs.modal', function (e,data) {
-		$('#modalBox'+box).remove();		
+		$('#modalBox'+box).remove();			
+		onExitModal(data);	
 		setTimeout($.unblockUI, 2000);
 	});	
 }
@@ -504,6 +511,7 @@ function request(url,dados,options){
 				var errors = getListError(response.message);
 				jsAlertBox('error','Erro ao salvar',errors);
 			}else{
+
 				console.log(errorThrown + '\r\n' + jqXHR.statusText + '\r\n');
 				var response = JSON.parse(jqXHR.responseText);
 				if(response.error){
@@ -559,13 +567,27 @@ function jqSaveDados(url,name,dados){
 function printDiv(divId) {
 	/*document.getElementsByClassName('table').style.overflow = "auto";
 	document.getElementsByClassName('table').style.height = "auto";*/
+	var baseUrl = $('#urlBase').val();
     var printContents = document.getElementById(divId).innerHTML;
-    var originalContents = document.body.innerHTML;
+	var originalContents = document.body.innerHTML;
+	newWin= window.open("");
+	newWin.document.write('<html><head><link rel="stylesheet" media="print" type="text/css" href="'+baseUrl+'/assets/bootstrap/dist/css/bootstrap.css"></head><body>'+printContents+'</body></html>');
+	newWin.print();
+	newWin.close();
+	/*
     document.body.innerHTML = "<html><head><link href=\"base/libs/bootsrtap/css/bootstrap.css\" rel=\"stylesheet\"></head><body>" + printContents + "</body>";
-    window.print();
+    document.print();
     document.body.innerHTML = originalContents;
-	location.reload();
+	location.reload();*/
 } 
+
+function printData(divId){
+   var divToPrint=document.getElementById(divId);
+   newWin= window.open("");
+   newWin.document.write(divToPrint.outerHTML);
+   newWin.print();
+   newWin.close();
+}
 
 function jsClearForm(form){
 	var form = $(form);
