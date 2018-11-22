@@ -13,19 +13,18 @@ function searchTable(input,tableId){
 }
 
 function printDiv(divId) {
-	var baseUrl = $('#urlBase').val();
     var printContents = document.getElementById(divId).innerHTML;
 	var originalContents = document.body.innerHTML;
 	newWin= window.open("");
-	newWin.document.write('<html><head><link rel="stylesheet" media="print" type="text/css" href="'+baseUrl+'/assets/bootstrap/dist/css/bootstrap.css"></head><body>'+printContents+'</body></html>');
+	newWin.document.write('<html><head><link rel="stylesheet" media="print" type="text/css" href="./assets/bootstrap/dist/css/bootstrap.css"></head><body>'+printContents+'</body></html>');
 	newWin.print();
 	newWin.close();
 } 
 
 function printData(divId){
-   var divToPrint=document.getElementById(divId);
+   var divToPrint=document.getElementById(divId).innerHTML;
    newWin= window.open("");
-   newWin.document.write(divToPrint.outerHTML);
+   newWin.document.write(divToPrint);
    newWin.print();
    newWin.close();
 }
