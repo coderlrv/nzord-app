@@ -21,12 +21,15 @@ function printDiv(divId) {
 	newWin.close();
 } 
 
-function printData(divId){
+function printData(divId,debug){
    var divToPrint=document.getElementById(divId).innerHTML;
-   newWin= window.open("");
+   newWin = window.open("");
    newWin.document.write(divToPrint);
-   newWin.print();
-   newWin.close();
+   if(!debug){
+        newWin.print();
+        newWin.focus();
+        newWin.afterprint = function(){ newWin.close(); }
+    }
 }
 
 
