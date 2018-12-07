@@ -24,12 +24,8 @@ function printDiv(divId) {
 function printData(divId,debug){
    var divToPrint=document.getElementById(divId).innerHTML;
    newWin = window.open("");
-   newWin.document.write(divToPrint);
-   if(!debug){
-        newWin.print();
-        newWin.focus();
-        newWin.afterprint = function(){ newWin.close(); }
-    }
+   var doc = '<html><head></head><body>'+divToPrint+'</body> '+ ( !debug ? '<script> setTimeout(function(){ window.print(); window.close(); }) </script>':'') + '</html>';
+   newWin.document.write(doc);
 }
 
 
