@@ -203,7 +203,7 @@ function sysModalBoxJs(title,url,data,nome,size,modal=true,exitDef=true){
 			'<div class="panel panel-default modal-content">'+
 				'<div class="modal-header panel-heading">'+
 				'<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
-				'<h4 class="modal-title"><b>'+title+'</b>  <em><small class="text-right">['+urlFinal+']</small></em></h4></div>'+
+				'<h4 class="modal-title"><b title="'+urlFinal+'">'+title+'</b></h4></div>'+
 					'<div class="row modal-body" style="padding-top:0px; padding-bottom:0px;">'+
 					'<div id="mdlBoxPreloader_'+name+'" class="text-center"><img src="'+$('#urlBase').val()+'/images/Preloader_3.gif" width="64" height="64"><br> Carregando...</div>'+
 					'<div id="mdlBoxDetail_'+name+'" style="display:none;padding-top:10px;">'+
@@ -263,7 +263,7 @@ function sysModalBox(title,url,vselect,alerta,nome='mdlFrame'){
 							'<div class="modal-header ' + alerta + '">'+
 								'<button type="button" class="close" data-dismiss="modal" aria-label="Close">'+
 								'	<span aria-hidden="true">&times;</span>'+
-								'</button><h4><b>'+title+'</b></h4>'+
+								'</button><h4><b title="'+urlFinal+'">'+title+'</b></h4>'+
 							'</div>'+
 							'<div class="row modal-body" id="modalBoxDetalhe">'+
 								'<div class="col-xs-12 text-center" id="loadingModal"><br><br><img src="'+$('#urlBase').val()+'/images/Preloader_3.gif" width="64" height="64"></div>'+
