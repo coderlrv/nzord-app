@@ -716,6 +716,9 @@ function IsJsonString(str) {
 				processData: false,
 				data: dados,
 				success: function(response){
+					//Chama evento afterSubmit
+					$form.trigger('afterSubmit',[response]);
+
 					if(response.statusCode == 201 || response.statusCode == 200){
 						msgInfoBox('success',response.message);
 						if(settings.modalClose) hideModalData(settings.modalClose,response);	
@@ -734,9 +737,10 @@ function IsJsonString(str) {
 						$.unblockUI();
 					}
 					
-					//Chama evento afterSubmit
-					$form.trigger('afterSubmit',[response]);
-					rePage();
+					
+					if(typeof rePage === "function"){
+						rePage();
+					}
 				},
 				error: function(xhr, ajaxOptions, thrownError) {
 					$form.find('button[type=submit]').removeAttr("disabled");
