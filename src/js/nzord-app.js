@@ -240,7 +240,18 @@ function sysModalBoxJs(title,url,data,nome,size,modal=true,exitDef=true){
 }
 
 function loadDetailBoxJs(name,url){
-	setTimeout( function() { $('#mdlBoxDetail_'+name).load( url )},800);
+	var defer = $.Deferred();
+
+	setTimeout( function() { 
+		$('#mdlBoxDetail_'+name).load( url, function( response, status, xhr ) {
+			if ( status == "error" ) {
+				defer.reject(xhr);
+			}
+			defer.resolve();
+		} )
+	},800);
+
+	return defer;
 }
 
 function sysModalBox(title,url,vselect,alerta,nome='mdlFrame'){	
