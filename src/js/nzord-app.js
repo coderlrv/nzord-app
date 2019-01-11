@@ -250,7 +250,19 @@ function loadDetailBoxJs(name,url){
 			defer.resolve();
 		} )
 	},800);
+	return defer;
+}
 
+function loadDetailDivJs(name,url){
+	var defer = $.Deferred();
+	setTimeout( function() { 
+		$('#'+name).load( url+' #'+name, function( response, status, xhr ) {
+			if ( status == "error" ) {
+				defer.reject(xhr);
+			}
+			defer.resolve();
+		}).fadeIn("fadein");
+	},800);
 	return defer;
 }
 
@@ -817,5 +829,9 @@ function IsJsonString(str) {
     };
 }());
 
-
-
+function getFormattedDate(date) {
+	var day = date.getDate();
+	var month = date.getMonth() + 1;
+	var year = date.getFullYear().toString().slice(2);
+	return day + '-' + month + '-' + year;
+}
