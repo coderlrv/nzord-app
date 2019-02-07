@@ -1,4 +1,13 @@
 
+function printExcelFile(){
+    $('.btn-print').addClass('disabled'); 
+    var link = document.createElement('a');
+    link.href = generateExcelHtml('prtReport');
+    link.download = 'report_'+ Math.floor((Math.random() * 9999999) + 1000000) +'.xls';
+    link.dispatchEvent(new MouseEvent(`click`, {bubbles: true, cancelable: true, view: window}));
+    $('.btn-print').removeClass('disabled'); 
+} 
+
 function searchTable(input,tableId){
     var encontrou = false;
     var termo = $('#'+input).val().toLowerCase();    
@@ -16,7 +25,7 @@ function printDiv(divId) {
     var printContents = document.getElementById(divId).innerHTML;
 	var originalContents = document.body.innerHTML;
 	newWin= window.open("");
-	newWin.document.write('<html><head><link rel="stylesheet" media="print" type="text/css" href="./assets/bootstrap/dist/css/bootstrap.css"></head><body>'+printContents+'</body></html>');
+	newWin.document.write('<html><head><link rel="stylesheet" media="print" type="text/css" href="./node_modules/bootstrap/dist/css/bootstrap.css"></head><body>'+printContents+'</body></html>');
 	newWin.print();
 	newWin.close();
 } 
