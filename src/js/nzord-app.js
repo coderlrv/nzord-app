@@ -115,7 +115,8 @@ function getMensagem(){
 	  url: $('#urlBase').val()+'/app/system/mensagem/getMsgs',
 	  cache: false
 	}).done(function( data ) {
-	  $("#navBarMsg").html( data );
+	  $("#navBarMsg").html( data.message.msg );
+	  $("#navBarRecado").html( data.message.recado );
 	});
 }
 
