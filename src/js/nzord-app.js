@@ -117,6 +117,7 @@ function getMensagem(){
 	}).done(function( data ) {
 	  $("#navBarMsg").html( data.message.msg );
 	  $("#navBarRecado").html( data.message.recado );
+	  $("#navBarUSetor").html( data.message.users );
 	});
 }
 
