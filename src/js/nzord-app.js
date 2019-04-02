@@ -170,7 +170,7 @@ function sysAction(url,params,idParam){
 	location.href = urlFinal
 }
 
-function sysModalBoxJs(title,url,data,nome,size,modal=true,exitDef=true){
+function sysModalBoxJs(title,url,data,nome,size,modal,exitDef){
 	var name = nome;
 	var urlFinal = url;	
 	if( data == true ){
@@ -183,6 +183,13 @@ function sysModalBoxJs(title,url,data,nome,size,modal=true,exitDef=true){
 
 	if( nome != 'undefined' ){
 		nome = 'name="'+nome+'"';
+	}
+	
+	if( modal != 'undefined' ){
+		modal = true;
+	}
+	if( exitDef != 'undefined' ){
+		exitDef = true;
 	}
 	
 	if(size == undefined ) {
@@ -268,7 +275,7 @@ function loadDetailDivJs(name,url){
 	return defer;
 }
 
-function sysModalBox(title,url,vselect,alerta,nome='mdlFrame'){	
+function sysModalBox(title,url,vselect,alerta,nome){	
 	var urlFinal = url;	;
 	if( vselect == true ){
 		if( validSelect() == false ){
@@ -276,6 +283,9 @@ function sysModalBox(title,url,vselect,alerta,nome='mdlFrame'){
 		}
 		var idMov = validSelect();
 		urlFinal = url + '/' + idMov;
+	}
+	if( nome != 'undefined' ){
+		nome = 'mdlFrame';
 	}
 	if( alerta != 'undefined' ){
 		alerta = 'alert alert-'+alerta;
@@ -318,22 +328,19 @@ function jaCarregado(){
 	$("#loadingModal").hide().delay( 800 );
 }
 
-function jsMensageBox(tipo,size,title,msg,delay,width){
+function jsMensageBox(tipo,size,title,msg,delay){
 	// tipo = "error", "info", "success", "warning"
-	if (width != null) {
-		widt = 'width: width,';
-	}else{
-		widt = '';
-	}
+	// size = "normal", "mini", "large"
 	Lobibox.notify(tipo, {
 		size: size,
 		howClass: 'rollIn',
 		hideClass: 'rollOut',
+		sound: false,
 		title: title,
 		delay: delay,
 		icon: true,
 		position: 'bottom left',
-		msg: msg,
+		msg: msg
 	});
 }
  
