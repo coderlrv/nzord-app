@@ -494,11 +494,7 @@ dl {
 .nav > li > a {
     padding: 1px 5px !important;
 }
-/*
-.dropdown-menu {
-	border: 1px solid #ccc !important;	
-}
-*/
+
 .h1, .h2, .h3, h1, h2, h3 {
     margin-top: 5px !important;
     margin-bottom: 5px !important;
@@ -513,8 +509,7 @@ dl {
 }
 
 .input-group-addon {
-    padding: 3px 12px 0 !important;
-    
+    padding: 3px 12px 0 !important;    
 }
 
 sub, sup {
@@ -528,34 +523,19 @@ hr {
 }
 
 #clock-wrapper{
-	padding: 1px 5px 1px !important;
- 	color:#ffffff;
+	padding: 14px 5px 13px !important;
  	font-size: 33px;
  	cursor: context-menu;
- 	width: 100px;
 }
-
-#clock-wrapper:hover{
-    background-color: #367fa9;
-}
-
 #data-wrapper{
 	padding: 3px 10px 3px !important;
- 	color:#ffffff;
  	font-size: 15px;
  	cursor: context-menu;
  	text-align:center;
 }
 
-#data-wrapper:hover{
-    background-color: #367fa9;
-}
-
-
-
 #tools-wrapper{
 	padding: 1px 2px 1px !important;
- 	color:#f2f2f2;
  	float: right;
  	margin-top: -40px;
 }
@@ -563,10 +543,7 @@ hr {
 .dropdown-menu > .calendar{
     width: 250px !important;	
     margin-top: -5px;
-    background-color: #edf5fa;
 }
-
-
 
 .small-box {
     margin-bottom: 5px !important;
@@ -596,14 +573,12 @@ div.dataTables_wrapper div.dataTables_filter {
 
 
 /* Btn Default */
-
 .btns-default > button {
     margin-bottom: -1px;
     margin-top: 7px;
 }
 
 /* Fix borde datapicker */
-
 .datetimepicker > .input-group-addon {
     border: none;
     border-left: 1px solid #d2d6de !important;
