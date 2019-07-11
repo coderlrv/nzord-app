@@ -222,16 +222,16 @@
         try{
             var box = '<div id="' + name + '-box-autocomplete" class="auto-complete" style="position:absolute;z-index: 999;">' +
                         '<ul class="dropdown-menu" role="menu" aria-labelledby="'+name+'" style="display: block;"> ';            
-            /*data.forEach((el,index) => {
+            data.forEach((el,index) => {
                 box += '<li ';
                 if(index == 0) box += 'class="active"'; 
                 box += ' data-key="'+ el.id +'">'+el.val+'</li>';
-            });*/    
-            data.each(function(el,index){                
+            });    
+            /*data.each(function(el,index){                
                 box += '<li ';
                 if(index == 0) box += 'class="active"'; 
                 box += ' data-key="'+ el.id +'">'+el.val+'</li>';
-            });
+            });*/
             box = box += '</ul></div>';
             return box;
         }catch(err){

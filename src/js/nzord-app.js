@@ -9,7 +9,6 @@ var AdminLTEOptions = {
   };
   
  $(document).ready(function() {
-	Pace.restart();
 	getMensagem();
 	checkSessao($('#sesId').val(),$('#urlPag').val());	
 
@@ -23,6 +22,7 @@ var AdminLTEOptions = {
 	if ($.cookie("menuClose") == 'true') {
 		$('.sidebar-mini').addClass('sidebar-collapse');
 	}
+	Pace.restart();
 });
 
 function onExitModal(){
@@ -105,9 +105,9 @@ setInterval(function(){
 	$('#ajax-loading').show();
 	getHoras();
 	getMensagem();
-	checkSessao($('#sesId').val(),$('#urlPag').val());
-	Pace.restart();	
-	$('#ajax-loading').hide('1500');	
+	checkSessao($('#sesId').val(),$('#urlPag').val());	
+	$('#ajax-loading').hide('2000');	
+	Pace.restart();
 }, 20000);
 
 function getMensagem(){
@@ -317,6 +317,42 @@ function sysModalBox(title,url,vselect,alerta,nome){
 		$('#mdlBoxDetail_'+name).show();
 	});
 
+	$('#modalBox'+box).on('hidden.bs.modal', function (e,data) {
+		$('#modalBox'+box).remove();			
+		onExitModal(data);	
+		setTimeout($.unblockUI, 2000);
+	});	
+}
+
+function sysModalBoxExterno(urlFinal,alerta,nome){
+	if( nome != 'undefined' ){
+		nome = 'mdlFrame';
+	}
+	if( alerta != 'undefined' ){
+		alerta = 'alert alert-'+alerta;
+	}
+	nome = 'name="'+nome+'"';	
+	var box = $.now();	
+	var html = '<div class="modal fade" id="modalBox'+box+'" '+nome+' tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">'+
+				'<div class="modal-dialog modal-lg">'+
+					'<div class="modal-content padding-0 margin-0">'+
+						'<div class="modal-header ' + alerta + ' padding-0">'+
+							'<a class="close" data-dismiss="modal" aria-label="Close">x</a>'+
+							'<small title="'+urlFinal+'">Acessando página externa </small>'+
+						'</div>'+
+						'<div class="row modal-body" id="modalBoxDetalhe">'+
+							'<div class="col-xs-12 text-center" id="loadingModal"><br><br><img src="'+$('#urlBase').val()+'/images/Preloader_3.gif" width="64" height="64"></div>'+
+							'<iframe src="' + urlFinal + '" '+nome+' width="100%" height="600" style="border: none;" onload="jaCarregado()" ></iframe>'+
+						'</div>'+
+					'</div>'+
+				'</div>'+
+			'</div>';
+	$('#divModalBox').append( html );
+	$('#modalBox'+box).modal('show');
+	$('#mdlBoxDetail_'+name).load(urlFinal,function(response, status, xhr){
+		$('#mdlBoxPreloader_'+name).hide();
+		$('#mdlBoxDetail_'+name).show();
+	});
 	$('#modalBox'+box).on('hidden.bs.modal', function (e,data) {
 		$('#modalBox'+box).remove();			
 		onExitModal(data);	
